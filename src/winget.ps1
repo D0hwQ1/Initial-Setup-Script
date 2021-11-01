@@ -6,6 +6,7 @@ winget install discord
 winget install telegram
 winget install slack
 winget install voidtools.Everything
+winget install wox
 winget install --force potplayer
 winget install Microsoft.VisualStudioCode.Insiders
 winget install "Android Studio"
