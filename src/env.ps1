@@ -6,8 +6,7 @@ Function env([string]$env) {
 }
 
 env("C:\Python27")
-env("C:\Users\pjt137\AppData\Local\Programs\Python\Python39\Scripts")
-env("C:\Users\pjt137\AppData\Local\Programs\Python\Python39")
+env("C:\Python27\Scripts")
 
 net localgroup administrators $(whoami) /add
 
