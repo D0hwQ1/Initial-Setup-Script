@@ -14,7 +14,6 @@ elif __file__:
     chdir(path.dirname(__file__))
     program = __file__
 
-
 if getcwd() != startup:
     system('powershell Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted')
 
