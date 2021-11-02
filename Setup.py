@@ -4,13 +4,16 @@ import sys
 wsl2 = 'https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi'
 winget = 'https://github.com/microsoft/winget-cli/releases/download/v1.0.11692/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle'
 meslolgs = 'https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf'
-
-try:
-    chdir(path.dirname(path.abspath(__file__)))
-except:
-    chdir(path.dirname(path.abspath(sys.executable)))
-
 startup = getenv('APPDATA')+'\\Microsoft\\Windows\\Start Menu\\Programs\\Startup'
+
+if getattr(sys, 'frozen', False):
+    chdir(path.dirname(sys.executable))
+    program = sys.executable
+
+elif __file__:
+    chdir(path.dirname(__file__))
+    program = __file__
+
 
 if getcwd() != startup:
     system('powershell Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted')
@@ -23,16 +26,15 @@ if getcwd() != startup:
     system('powershell dism /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart')
     system('powershell dism /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart')
 
-    system('powershell ./src/winget.ps1')
-    system('powershell ./src/reg.ps1')
-    system('powershell ./src/env.ps1')
+    system('powershell src/winget.ps1')
+    system('powershell src/reg.ps1')
+    system('powershell src/env.ps1')
 
     remove('winget.msixbundle')
     remove('meslolgs.ttf')
     rename('c:\python27\python.exe', 'c:\python27\python2.exe')
     
-    # rename('main.py', startup+'\\main.py')
-    rename(sys.executable, startup+'\\Setup.exe')
+    rename(program, startup+'\\'+program)
     system('shutdown -r -t 5')
 
 else:
@@ -41,6 +43,4 @@ else:
     system('powershell wsl --set-default-version 2')
 
     remove('wsl2.msi')
-    remove(sys.executable)
-
-    os.system('pause')
+    remove(program)
